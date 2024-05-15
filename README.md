@@ -3,6 +3,7 @@
 1. Tổng quan
 Họ và tên: Mao Sorakpheanukma, Mã ssv: CPC205016, lớp: K56KMT.
 Môn học: Lập trình Python
+
 Tên đề tài: Đề xuất phim cho người 
 2. Nền tảng sử dụng trong đề tài
 - Cơ sở dữ: có 1 bảng gồm các trưởng(id là PK,tên,loại,đánh gia, ngayra,đạo diện)
