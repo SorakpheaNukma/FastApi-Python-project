@@ -21,7 +21,7 @@ Mô tả nguồn dữ liệu
 - Dữ liệu bao gồm thông tin về các tên phim, thời lượng, đánh giá, năm sx...)
 # 3. Node-red
 Xây dựng flow để tự động gọi api liên tục để lấy dữ liệu. Sau đó xử lý dữ liệu và insert vào db
-# 4. bsite 
+# 4. Website 
 - Xây dựng trang web để hiển thị được các thông tin
 - Sử dụng HTML, CSS, Javascript để thực hiện xây dựng và thiết kế trang web
 - Hiển thị được các thông tin 
