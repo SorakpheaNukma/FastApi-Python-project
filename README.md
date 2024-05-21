@@ -1,10 +1,10 @@
 # FastApi-Python-project
 # Đề xuất phim cho người dùng
-1. Tổng quan
+# 1. Tổng quan
 
-# Họ và tên: Mao Sorakpheanukma, Mã ssv: CPC205016, lớp: K56KMT.01
-# Môn học: Lập trình Python
-# Tên đề tài: Đề xuất phim cho người dúng
+Họ và tên: Mao Sorakpheanukma, Mã ssv: CPC205016, lớp: K56KMT.01
+Môn học: Lập trình Python
+Tên đề tài: Đề xuất phim cho người dúng
 
 2. Nền tảng sử dụng trong đề tài
 - Cơ sở dữ: có 1 bảng gồm các trưởng(id là PK,tên,loại,đánh gia, ngayra,đạo diện)
