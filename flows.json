@@ -1,0 +1,162 @@
+[
+    {
+        "id": "43814b646eed7156",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3960b7ec1b6bf8d6",
+        "type": "inject",
+        "z": "43814b646eed7156",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "31a11e314bfeb5b7"
+            ]
+        ]
+    },
+    {
+        "id": "0451630ed505e057",
+        "type": "debug",
+        "z": "43814b646eed7156",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c9fb11ac54c133c9",
+        "type": "function",
+        "z": "43814b646eed7156",
+        "name": "function",
+        "func": "var sqlStatements = [];\nmsg.payload.results.map(movie => {\n        let title = movie.title ? movie.title.replace(/'/g, \"''\") : '';\n        let original_title = movie.original_title ? movie.original_title.replace(/'/g, \"''\") : '';\n        let overview = movie.overview ? movie.overview.replace(/'/g, \"''\") : '';\n        let release_date = movie.release_date ? `'${movie.release_date}'` : 'NULL';\n        let original_language = movie.original_language ? `'${movie.original_language}'` : 'NULL';\n        let popularity = movie.popularity || 0;\n        let vote_average = movie.vote_average || 0;\n        let vote_count = movie.vote_count || 0;\n        let backdrop_path = movie.backdrop_path ? `'${movie.backdrop_path.replace(/'/g, \"''\")}'` : 'NULL';\n        let poster_path = movie.poster_path ? `'${movie.poster_path.replace(/'/g, \"''\")}'` : 'NULL';\n\n        if (original_title.trim() === '') {\n                original_title = 'NULL';\n        } else {\n                original_title = `'${original_title}'`;\n        }\n\n        let sql = `INSERT INTO movies (title, OriginalTitle, Overview, ReleaseDate, OriginalLanguage, Popularity, VoteAverage, VoteCount, BackdropPath, PosterPath) VALUES ('${title}', ${original_title}, '${overview}', ${release_date}, ${original_language}, ${popularity}, ${vote_average}, ${vote_count}, ${backdrop_path}, ${poster_path})`;\n        sqlStatements.push(sql);\n});\n\nmsg.payload = sqlStatements.join('; ');\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "e8be9728b9584a32"
+            ]
+        ]
+    },
+    {
+        "id": "e8be9728b9584a32",
+        "type": "MSSQL",
+        "z": "43814b646eed7156",
+        "mssqlCN": "51f9cdf3a2d2be8b",
+        "name": "",
+        "outField": "payload",
+        "returnType": 0,
+        "throwErrors": 1,
+        "query": "",
+        "modeOpt": "queryMode",
+        "modeOptType": "query",
+        "queryOpt": "payload",
+        "queryOptType": "editor",
+        "paramsOpt": "queryParams",
+        "paramsOptType": "none",
+        "rows": "rows",
+        "rowsType": "msg",
+        "parseMustache": true,
+        "params": [],
+        "x": 660,
+        "y": 320,
+        "wires": [
+            [
+                "0451630ed505e057"
+            ]
+        ]
+    },
+    {
+        "id": "31a11e314bfeb5b7",
+        "type": "http request",
+        "z": "43814b646eed7156",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8000/movie-top-rated",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "5b330a17758ef51b"
+            ]
+        ]
+    },
+    {
+        "id": "5b330a17758ef51b",
+        "type": "json",
+        "z": "43814b646eed7156",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "c9fb11ac54c133c9"
+            ]
+        ]
+    },
+    {
+        "id": "51f9cdf3a2d2be8b",
+        "type": "MSSQL-CN",
+        "tdsVersion": "7_4",
+        "name": "MSSQL",
+        "server": "vengann\\SQLEXPRESS",
+        "port": "1433",
+        "encyption": true,
+        "trustServerCertificate": true,
+        "database": "NMovie",
+        "useUTC": true,
+        "connectTimeout": "15000",
+        "requestTimeout": "15000",
+        "cancelTimeout": "5000",
+        "pool": "5",
+        "parseJSON": false,
+        "enableArithAbort": true,
+        "readOnlyIntent": false
+    }
+]
