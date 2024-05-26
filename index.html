@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Movie Recommanded</title>
+    <style>
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Movie</h2>
+    <table id="movieTable">
+        <thead>
+            <tr>
+                <th>Movie ID</th>
+                <th>Title</th>
+                <th>Release Date</th>
+                <th>Overview</th>
+                <th>Original Language</th>
+                <th>Popularity</th>
+                <th>Vote Average</th>
+                <th>Vote Count</th>
+                <th>Backdrop Path</th>
+                <th>Poster Path</th>
+            </tr>
+        </thead>
+        <tbody id="movieTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        function getData() {
+            fetch('api.aspx')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const tableBody = document.getElementById('movieTableBody');
+                    data.forEach(movie => {
+                        const releaseDate = movie.ReleaseDate.split('T')[0];
+                        const backdropUrl = `https://image.tmdb.org/t/p/w185${movie.BackdropPath}`;
+                        const posterUrl = `https://image.tmdb.org/t/p/w185${movie.PosterPath}`;
+                        const row = `
+                        <tr>
+                            <td>${movie.MovieID}</td>
+                            <td>${movie.Title}</td>
+                            <td>${releaseDate}</td>
+                            <td>${movie.Overview}</td>
+                            <td>${movie.OriginalLanguage}</td>
+                            <td>${movie.Popularity}</td>
+                            <td>${movie.VoteAverage}</td>
+                            <td>${movie.VoteCount}</td>
+                            <td><img src="${backdropUrl}" alt="Backdrop"></td>
+                            <td><img src="${posterUrl}" alt="Poster"></td>
+                        </tr>`;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        getData();
+    </script>
+</body>
+</html>
